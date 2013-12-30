@@ -12,7 +12,7 @@ All examples are actual sketches that were used with a real robots. Each is basi
 
 ## Using the Sketches
 
-If you want to adapt any of these sketches to your own projects keep in mind that you will most likely need to make modifications to get the code to work for your specific hardware. I try to abstract out as much of the device specific code as possible so it should be relatively wasy to adapt the code - after all I'll probably need to adapt the code myself as I change systems over time.
+If you want to adapt any of these sketches to your own projects keep in mind that you will most likely need to make modifications to get the code to work for your specific hardware. I try to abstract out as much of the device specific code as possible so it should be relatively easy to adapt the code - after all I'll probably need to adapt the code myself as I change systems over time.
 
 Currently the following systems are used for most of the examples:
 
