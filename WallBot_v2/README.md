@@ -2,7 +2,7 @@
 
 For my next version of WallBot I mounted the sonic sensor onto a servo.
 
-![image](WallBot_v2.jpg)
+![image](WallBot_V2.jpg)
 
 You can see a short clip of WallBot2 in action: [here](http://youtu.be/Zw35PRs5OC0)
 
