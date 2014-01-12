@@ -27,7 +27,7 @@ The sensor works by emitting a series of sound pulses when the "trig" pin is dri
 
 The **pulseIn()** function returns the time (in microseconds) that the echoPin stays high. It will time-out after 6000 us and return 0 as the result.
 
-One thing to note is that **readDistance()** cannot be called too rapidly so make sure to ensure at least a 100 ms delay between calls.
+One thing to note is that **readDistance()** cannot be called too rapidly so ensure at least a 100 ms delay between calls.
 
 Here is a short clip of the bot trying to avoiding walls: [http://www.youtube.com/watch?v=LyVRZNFcckg](http://www.youtube.com/watch?v=LyVRZNFcckg)
 
