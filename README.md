@@ -19,6 +19,8 @@ Currently the following systems/hardware are used for most of the examples:
 * The [Adafruit Motor V2 Shield](http://learn.adafruit.com/adafruit-motor-shield-v2-for-arduino) is used to drive the wheel motors.
 * El Cheapo HC-SR04 Sonic Range Sensor
 * TowerPro SG-50 Micro Servos
+* [Pololu Qik2s9v1](http://www.pololu.com/product/1110) motor controller 
+* [Pololu Wheel Encoders](http://www.pololu.com/product/1217) motor controller 
 
 ##The Sketches
 
@@ -26,14 +28,17 @@ Currently the following systems/hardware are used for most of the examples:
  
  * **WallBot V1** - Uses sonic sensor to avoid crashing into walls.
  
- * **WallBot V2** - Sonic sensor is mounted to a servo.
+ * **WallBot V2** - Sonic sensor mounted on a servo.
+
+ * **WallBot V3** - PID Control  
+   * Added Quadrature encoders
+   * Added PID control to maintain straight line motion
+   * New dedicated motor controller
  
 ##Up Coming Projects/Hardware
 
- * Add Quadrature encoders
  * Add inertia sensors
  * Add compass
  * Moving to an RTOS kernel
- * Replace motor shield with dedicated motor controller
  * Add IR LEDs to provide edge detection, i.e. avoid falling off a table.
  * Wireless communication and control

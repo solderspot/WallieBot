@@ -1,5 +1,6 @@
 // Copyright (c) 2014, Solder Spot
 // All rights reserved. 
+// See license.txt 
 
 // include needed libraries
 #include <Wire.h>
