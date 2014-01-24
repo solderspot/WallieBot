@@ -38,10 +38,9 @@ void driveStraight()
 {
   static int16_t lticks = 0, rticks = 0;
   static uint16_t ms = 0;
-  int16_t diff;
+  int16_t dlticks, drticks, diff;
   int32_t delta;
-  static int16_t dlticks = 0, drticks = 0;
-  static uint16_t dms = 0;
+  uint16_t dms;
   
   get_ticks_since_last( &dlticks, &drticks, &dms);
 
