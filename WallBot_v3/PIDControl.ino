@@ -6,8 +6,8 @@
 // Config
 //----------------------------------------
 
-#define Kp    1000L
-#define Ki    1000L
+#define Kp    1500L
+#define Ki    900L
 #define Kd    0L
 
 //----------------------------------------
@@ -36,14 +36,20 @@ void resetPID()
 
 void driveStraight()
 {
-  int16_t lticks, rticks, diff;
+  static int16_t lticks = 0, rticks = 0;
+  static uint16_t ms = 0;
+  int16_t diff;
   int32_t delta;
-  uint16_t ms;
+  static int16_t dlticks = 0, drticks = 0;
+  static uint16_t dms = 0;
+  
+  get_ticks_since_last( &dlticks, &drticks, &dms);
 
+  lticks += dlticks;
+  rticks += drticks;
+  ms += dms;
 
-  get_ticks_since_last( &lticks, &rticks, &ms);
-
-  if ( ms > 0 )
+  if ( ms > 100 )
   {
     // we assume wheels are turning in the same direction
     int16_t dir = ( lticks < 0 || rticks < 0) ? -1 : 1;
@@ -62,7 +68,7 @@ void driveStraight()
       return;
     }
 
-    // track the intergral 
+    // track the integral 
     _pid_sumErrs += diff;
 
     // get the differential
@@ -76,17 +82,20 @@ void driveStraight()
     // turning more than the right so adjust 
     // each motor accordingly
     int adjust = (P/2)*dir;
-    adjustLMotor = -adjust;
-    adjustRMotor = adjust;
+    adjustLMotor -= adjust;
+    adjustRMotor += adjust;
     #if PID_INFO
     Serial.print("DIFF = ");
     Serial.print(diff);
-    Serial.print(" PID = ");
-    Serial.print(P);
+    Serial.print(" ERR = ");
+    Serial.print(_pid_sumErrs);
     Serial.print(" ADJ = ");
     Serial.println(adjust);
     #endif
     updateMotors();
+    lticks = 0;
+    rticks = 0;
+    ms = 0;
   }
 }
 

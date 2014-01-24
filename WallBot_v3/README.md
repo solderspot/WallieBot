@@ -11,7 +11,9 @@ A lot happened this revision.
 
 The initial goal was to make WallBot drive in straight lines. Up till now I've had to fudge the left and right motor values to compensate for the differences in each motor's performance.
 
-The longer term goal is to equip WallBot for dead-recogning and general navigation, such as maze/room mapping.
+The longer term goal is to equip WallBot for dead-reckoning and general navigation, such as maze/room mapping.
+
+You can read details about the build for V3 [here](http://solderspot.wordpress.com/2014/01/16/wallbot-version-2-5/)
  
  
 ##The Encoders
@@ -113,7 +115,7 @@ Again, the meat of the code is:
       		return;
     	}
 
-    	// track the intergral 
+    	// track the integral 
     	_pid_sumErrs += diff;
 
     	// get the differential
@@ -137,7 +139,7 @@ You can see a short clip of the PID Controller in action [here](http://youtu.be/
 One of the ways I tested the controller logic was to simulate a left/right motor imbalance using software. I added an LMotoGain variable that was used to modify the power setting of the left motor. So while the bot thinks it is setting the left and right motors to the same power level, in actual fact they are different.
 
 	// PID - use this make the left motor more
-	// powerful or less pwerful than the right motor.
+	// powerful or less powerful than the right motor.
 	// Value is as a percentage, i.e. 110 means left
 	// motor will be 10% faster than the right. 90
 	// would mean the left motor is 10% slower
@@ -151,5 +153,22 @@ So a value of 130 will result in the left motor always being 30% more power than
 
 ##Notes
 
-`to be added`
+After playing around with V3 I notice some issues:
+
+ * I should be adjusting the `adjust[L|R]Motor` variables and not setting them, i.e.
  		
+ 		adjustLMotor -= adjust;
+ 		adjustRMotor += adjust;
+after I made that change the PID control worked much better. I added this change to V3.
+ 		
+ * I need to provide gentle acceleration to the motor logic. When the bot starts moving forward from a standstill there is a sudden jolt of movement and the wheels can lose traction for a moment, resulting in the bot going off center. There is no way for the PID to detect and correct for that.
+ 
+ *   Need to see if making the adjust[L|R]Motor variables percentage modifiers, rather than absolute modifiers, will be better for handling all ranges of motor speeds. Using absolute modifiers means that their effects are larger at low speeds and lesser at higher speeds.
+ 
+ * There is not a whole lot of resolution to the ticks and the motor levels which seems to make the PID control very course. I think the main problem is the speed control only having a resolution of 127.
+ 
+ * I need to add some kind of wireless communication to the bot. It would be much simpler to view PID values in realtime and also be able to modify parameters without having to tether the bot to the computer each time I want to tweak something.
+ 
+ * Ended up with Kp = 1.5, Ki = 0.9 and Kd = 0. 
+
+I also modified the PID controller to be able to sample longer periods of time to see what kind of effect that can have on the porcess. 		

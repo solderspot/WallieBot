@@ -87,7 +87,7 @@ SS_Velocity sweepRate   = SS_DEGREES(120);
 // Value is as a percentage, i.e. 110 means left
 // motor will be 10% faster than the right. 90
 // would mean the left motor is 10% slower
-int LMotorGain        = 130;
+int LMotorGain        = 105;
 // use this to set default state of PID control
 bool PIDenabled         = true;
 
