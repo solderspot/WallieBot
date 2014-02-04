@@ -6,14 +6,14 @@
 //
 //----------------------------------------
 
-volatile int16_t _lft_ticks = 0;
-volatile int16_t _rht_ticks = 0;
-volatile uint16_t _counter = 0;
-volatile bool _error = false;
-char _lApin;
-char _lBpin;
-char _rApin;
-char _rBpin;
+volatile int16_t en_lft_ticks = 0;
+volatile int16_t en_rht_ticks = 0;
+volatile uint16_t en_counter = 0;
+volatile bool en_error = false;
+char en_lApin;
+char en_lBpin;
+char en_rApin;
+char en_rBpin;
 
 //----------------------------------------
 //
@@ -21,10 +21,10 @@ char _rBpin;
 
 void setup_encoder( char lftPinA, char lftPinB, char rhtPinA, char rhtPinB )
 {
-  _init_pin( &_lApin, lftPinA);
-  _init_pin( &_lBpin, lftPinB);
-  _init_pin( &_rApin, rhtPinA);
-  _init_pin( &_rBpin, rhtPinB);
+  en_init_pin( &en_lApin, lftPinA);
+  en_init_pin( &en_lBpin, lftPinB);
+  en_init_pin( &en_rApin, rhtPinA);
+  en_init_pin( &en_rBpin, rhtPinB);
 
   cli();
   // set timer2 interrupt at 1000 Hz
@@ -43,7 +43,7 @@ void setup_encoder( char lftPinA, char lftPinB, char rhtPinA, char rhtPinB )
 //
 //----------------------------------------
 
-void _init_pin( char *pin, char value)
+void en_init_pin( char *pin, char value)
 {
   *pin = value;
   pinMode(value, INPUT);
@@ -57,12 +57,12 @@ void _init_pin( char *pin, char value)
 bool get_ticks_since_last( int16_t *lft, int16_t *rht, uint16_t *ms )
 {
   cli();
-  *lft = _lft_ticks;
-  *rht = _rht_ticks;
-  *ms = _counter;
-  _lft_ticks = _rht_ticks = _counter = 0;
-  char error = _error;
-  _error = false;
+  *lft = en_lft_ticks;
+  *rht = en_rht_ticks;
+  *ms = en_counter;
+  en_lft_ticks = en_rht_ticks = en_counter = 0;
+  char error = en_error;
+  en_error = false;
   sei();
 
   return !error;
@@ -75,8 +75,8 @@ bool get_ticks_since_last( int16_t *lft, int16_t *rht, uint16_t *ms )
 void clear_ticks()
 {
   cli();
-  _lft_ticks = _rht_ticks = _counter = 0;
-  _error = false;
+  en_lft_ticks = en_rht_ticks = en_counter = 0;
+  en_error = false;
   sei();
 }
 
@@ -87,22 +87,22 @@ void clear_ticks()
 ISR(TIMER2_COMPA_vect)
 {
   // this routine gets called once every 1 millisecond
-  _counter++;
+  en_counter++;
 
   static char lastLA = 0;
   static char lastLB = 0;
   static char lastRA = 0;
   static char lastRB = 0;
 
-  _process(_lApin, _lBpin, &lastLA, &lastLB, &_lft_ticks);
-  _process(_rApin, _rBpin, &lastRA, &lastRB, &_rht_ticks);
+  en_process(en_lApin, en_lBpin, &lastLA, &lastLB, &en_lft_ticks);
+  en_process(en_rApin, en_rBpin, &lastRA, &lastRB, &en_rht_ticks);
 }
 
 //----------------------------------------
 //
 //----------------------------------------
 
-void _process( char Apin, char Bpin, char *lastA, char *lastB, volatile int16_t *ticks )
+void en_process( char Apin, char Bpin, char *lastA, char *lastB, volatile int16_t *ticks )
 {
   char A = (digitalRead( Apin) == HIGH) ? 1 : 0;
   char B = (digitalRead( Bpin) == HIGH) ? 1 : 0;
@@ -114,7 +114,7 @@ void _process( char Apin, char Bpin, char *lastA, char *lastB, volatile int16_t 
   if( dA && dB )
   {
     // both should not change at the same time
-    _error = true;
+    en_error = true;
   }
   else if ( dA || dB )
   {

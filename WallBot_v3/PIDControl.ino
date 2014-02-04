@@ -6,7 +6,7 @@
 // Config
 //----------------------------------------
 
-#define Kp    1500L
+#define Kp    2000L
 #define Ki    900L
 #define Kd    0L
 
@@ -14,8 +14,8 @@
 // Data
 //----------------------------------------
 
-int16_t _pid_lastErr;
-int16_t _pid_sumErrs;
+int16_t pid_lastErr;
+int16_t pid_sumErrs;
 
 //----------------------------------------
 //
@@ -23,8 +23,8 @@ int16_t _pid_sumErrs;
 
 void resetPID()
 {
-  _pid_lastErr = 0;
-  _pid_sumErrs = 0;
+  pid_lastErr = 0;
+  pid_sumErrs = 0;
   adjustLMotor = adjustRMotor = 0;
   updateMotors();
   clear_ticks();
@@ -61,35 +61,33 @@ void driveStraight()
 
     // we want the difference to be 0
 
-    if ( !diff)
-    {
-      // that was easy
-      return;
-    }
-
     // track the integral 
-    _pid_sumErrs += diff;
+    pid_sumErrs += diff;
 
     // get the differential
-    delta = (int32_t) (diff - _pid_lastErr);
+    delta = (int32_t) (diff - pid_lastErr);
 
-    int16_t P = (int16_t) ((Kp*((int32_t)diff) + Ki*((int32_t)_pid_sumErrs) + (Kd*delta*1000L)/ms)/1000L);
+    int16_t P = (int16_t) ((Kp*((int32_t)diff) + Ki*((int32_t)pid_sumErrs) + (Kd*delta))/1000L);
 
-   _pid_lastErr = diff;
+    pid_lastErr = diff;
 
     // a positive error means the left motor is 
     // turning more than the right so adjust 
     // each motor accordingly
-    int adjust = (P/2)*dir;
-    adjustLMotor -= adjust;
-    adjustRMotor += adjust;
+    int16_t ladjust = ((P+0)/2)*dir;
+    int16_t radjust = (P/2)*dir;
+    adjustLMotor -= ladjust;
+    adjustRMotor += radjust;
     #if PID_INFO
     Serial.print("DIFF = ");
     Serial.print(diff);
     Serial.print(" ERR = ");
-    Serial.print(_pid_sumErrs);
-    Serial.print(" ADJ = ");
-    Serial.println(adjust);
+    Serial.print(pid_sumErrs);
+    Serial.print(" ADJ = (");
+    Serial.print(adjustLMotor);
+    Serial.print(", ");
+    Serial.print(adjustRMotor);
+    Serial.println(")");
     #endif
     updateMotors();
     lticks = 0;

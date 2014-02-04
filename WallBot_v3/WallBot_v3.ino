@@ -87,9 +87,11 @@ SS_Velocity sweepRate   = SS_DEGREES(120);
 // Value is as a percentage, i.e. 110 means left
 // motor will be 10% faster than the right. 90
 // would mean the left motor is 10% slower
-int LMotorGain        = 105;
+int LMotorGain        = 100;
 // use this to set default state of PID control
 bool PIDenabled         = true;
+bool pushToStart        = true;
+bool pushToStop         = true;
 
 
 //----------------------------------------
@@ -197,6 +199,15 @@ void setup()
 
 void loop() 
 {
+  
+  handleButtonPress();
+
+  if( pushToStart )
+  {
+    // don't do anything till the button is pressed
+    return;
+  }
+  
   // read distance from sensor
   int distance = readDistance();
 
@@ -235,6 +246,12 @@ void loop()
       }
       else
       {
+        if ( LMotorSpeed < moveSpeed )
+        {
+          LMotorSpeed+=5;
+          RMotorSpeed = LMotorSpeed;
+          updateMotors();
+        }
         #if !TEST_ENCODERS
           if ( PIDenabled )
           {
@@ -260,18 +277,27 @@ void loop()
   {
     int16_t lft, rht;
     uint16_t ms;
+    static int16_t lTotal = 0;
+    static int16_t rTotal = 0;
+    static int16_t lastlTotal = 0;
+    static int16_t lastrTotal = 0;
     bool ok = get_ticks_since_last( &lft, &rht, &ms);
-    Serial.print("Encoders: lft = ");
-    Serial.print(lft);
-    Serial.print(" rht = ");
-    Serial.print(rht);
-    Serial.print(" ms = ");
-    Serial.print(ms);
-    Serial.println( !ok ? " (error)" :"");
+    lTotal += lft;
+    rTotal += rht;
+    
+    if( lastlTotal != lTotal || lastrTotal != rTotal )
+    {
+      Serial.print("Encoders: lft = ");
+      Serial.print(lTotal);
+      Serial.print(" rht = ");
+      Serial.print(rTotal);
+      Serial.println( !ok ? " (error)" :"");
+      lastlTotal = lTotal;
+      lastrTotal = rTotal;
+    }
   }
   #endif
 
-  handleButtonPress();
 }
 
 //----------------------------------------
@@ -294,7 +320,20 @@ void handleButtonPress(void)
         #if BUTTON_INFO
           Serial.println("Button Pressed");
         #endif
-        usePID(!PIDenabled);
+        if( pushToStart )
+        {
+          pushToStart = false;
+        }
+        else if( pushToStop )
+        {
+          pushToStart = true;
+          stopMoving();
+          state = IDLE;
+        }
+        else
+        {
+          usePID(!PIDenabled);
+        }
       }
       lastButton = button;
       count = 0;
@@ -342,6 +381,7 @@ int readDistance()
 
 void stopMoving()
 {
+  resetPID();
   LMotorSpeed = 0;
   RMotorSpeed = 0;
   adjustLMotor = 0;
@@ -386,8 +426,8 @@ void moveForward()
 {
   if( state != MOVING)
   {
-    LMotorSpeed = moveSpeed;
-    RMotorSpeed = moveSpeed;
+    LMotorSpeed = 0;
+    RMotorSpeed = 0;
     adjustLMotor = 0;
     adjustRMotor = 0;
     #if !TEST_ENCODERS

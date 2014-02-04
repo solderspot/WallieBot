@@ -169,6 +169,6 @@ after I made that change the PID control worked much better. I added this change
  
  * I need to add some kind of wireless communication to the bot. It would be much simpler to view PID values in realtime and also be able to modify parameters without having to tether the bot to the computer each time I want to tweak something.
  
- * Ended up with Kp = 1.5, Ki = 0.9 and Kd = 0. 
+ * Kp = 1.5, Ki = 0.9 and Kd = 0 worked out well for my setup.
 
-I also modified the PID controller to be able to sample longer periods of time to see what kind of effect that can have on the porcess. 		
+I also modified the PID controller so it can sample longer periods of time to see what kind of effect that can have on the porcess. So far I've not detected any noticeable change but then again it's early days.	
