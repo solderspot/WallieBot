@@ -2,7 +2,7 @@
 
 This version of WallBot is a complete redo using Pololu's Zumo chassis and shield.
 
-![image](WallBot_V4.jpg)
+![image](WallBot_v4.jpg)
 
 I've documented the development and build of the bot in these posts:
 
