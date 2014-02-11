@@ -21,6 +21,11 @@ Currently the following systems/hardware are used for most of the examples:
 * TowerPro SG-50 Micro Servos
 * [Pololu Qik2s9v1](http://www.pololu.com/product/1110) motor controller 
 * [Pololu Wheel Encoders](http://www.pololu.com/product/1217) motor controller 
+* [Pololu's Zumo Kit](http://www.pololu.com/product/2505)
+* [Pololu's 100:1 HP metal micro-gear motors with extended shaft](http://www.pololu.com/product/2214)
+* [Pololu's optical encoders](http://www.pololu.com/product/2590)
+* [Adafruit's V5 Trinket](http://www.adafruit.com/products/1501)
+
 
 ##The Sketches
 
@@ -34,11 +39,11 @@ Currently the following systems/hardware are used for most of the examples:
    * Added Quadrature encoders
    * Added PID control to maintain straight line motion
    * New dedicated motor controller
+ * **WallBot V4** - Completely new hardware
+   * Added Reflectance sensor array
+   * Has compass
  
 ##Up Coming Projects/Hardware
 
- * Add inertia sensors
- * Add compass
  * Moving to an RTOS kernel
- * Add IR LEDs to provide edge detection, i.e. avoid falling off a table.
  * Wireless communication and control
