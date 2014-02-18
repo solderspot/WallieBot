@@ -70,7 +70,7 @@ ubyte sweepMin          = 45;
 ubyte sweepMax          = 145;
 ubyte leftTurnPos       = 45;
 ubyte rightTurnPos      = 155; 
-// velocities in degrees per second
+// velocities in 10th degrees per second
 int inTurnRate  = 55*10;
 int sweepRate   = 100*10;
 // PID - use this make the left motor more
@@ -702,7 +702,7 @@ void trktDelay()
 {
   static unsigned long last = 0;
 
-  long diff = 5 - (millis() - last);
+  long diff = 10 - (millis() - last);
 
   if( diff > 0 )
     delay(diff);

@@ -30,11 +30,8 @@ Currently the following systems/hardware are used for most of the examples:
 ##The Sketches
 
  * **SpinBot** - The "Hello World!"" of robotic movement. Simply spins in place. (Like you need a sketch for that)
- 
  * **WallBot V1** - Uses sonic sensor to avoid crashing into walls.
- 
  * **WallBot V2** - Sonic sensor mounted on a servo.
-
  * **WallBot V3** - PID Control  
    * Added Quadrature encoders
    * Added PID control to maintain straight line motion
@@ -42,6 +39,7 @@ Currently the following systems/hardware are used for most of the examples:
  * **WallBot V4** - Completely new hardware
    * Added Reflectance sensor array
    * Has compass
+ * **WallBot V5** - PID Control & simple paths
  
 ##Up Coming Projects/Hardware
 

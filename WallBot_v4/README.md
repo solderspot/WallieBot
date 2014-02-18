@@ -28,6 +28,11 @@ The Trinket acts as an I2C slave and controlls the front servo and sonic sensor.
 
 The Arduino sits on the chassis shield and controller the motors and reads the wheel encoders.
 
+In Version 5 I was able to get all the systems working on just the Arduino, so this version is of interest only for the Trinket implementation.
+
+I plan to breakout the Trinket code and make it a stand-alone library as having an independently controller sensor on a servo might be of general use to others, if only for reference.
+
+Even though the encoders are functional I did not enable or tune the PID controller. 
 
 
 Reference
