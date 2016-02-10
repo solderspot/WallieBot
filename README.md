@@ -10,6 +10,8 @@ Each subfolder contains a sketch and some documentation about the robot config t
 
 All examples are actual sketches that were used with a real robot. Each is basically a snap shot of my progression with developing Wallie.
 
+For an overview of the different bots and some video of their performance checkout the overpage here: https://solderspot.wordpress.com/wallbot-project/
+
 ## Using the Sketches
 
 If you want to adapt any of these sketches to your own projects keep in mind that you will most likely need to make modifications to get the code to work for your specific hardware. I try to abstract out as much of the device specific code as possible so it should be relatively easy to adapt the code - after all I'll probably need to adapt the code myself as I change systems over time.
